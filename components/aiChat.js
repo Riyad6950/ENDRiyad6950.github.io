@@ -111,6 +111,23 @@ export class AIChat {
                 letter-spacing: 1px;
                 text-transform: uppercase;
             }
+            .ai-close-btn {
+                background: transparent;
+                border: none;
+                color: var(--text-light);
+                cursor: pointer;
+                font-size: 1.2rem;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: background 0.2s;
+            }
+            .ai-close-btn:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
             .status-dot {
                 width: 10px;
                 height: 10px;
@@ -248,6 +265,7 @@ export class AIChat {
                     <h4>Riyad AI Assistant</h4>
                     <div class="ai-status"><span class="status-dot"></span> Online</div>
                 </div>
+                <button class="ai-close-btn" aria-label="Close Chat"><i class="fas fa-times"></i></button>
             </div>
             <div class="ai-body" id="ai-messages">
                 <div class="ai-msg bot">Hello! I am Riyad's portfolio assistant. How can I help you today?</div>
@@ -283,9 +301,23 @@ export class AIChat {
             if (e.key === 'Enter') send();
         });
 
+
+
+        // Close button
+        this.window.querySelector('.ai-close-btn').addEventListener('click', () => this.toggleChat());
+
         // Close on escape
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.isOpen) this.toggleChat();
+        });
+
+        // Close on click outside
+        document.addEventListener('click', (e) => {
+            if (this.isOpen &&
+                !this.window.contains(e.target) &&
+                !this.btn.contains(e.target)) {
+                this.toggleChat();
+            }
         });
     }
 

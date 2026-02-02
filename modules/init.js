@@ -240,6 +240,13 @@ function injectGitHubStyles() {
             margin-top: 30px; 
             margin-bottom: 40px; /* Fix: Add space between Activity and Projects */
         }
+        
+        .gh-events {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 20px;
+        }
         .gh-event { 
             display: flex; gap: 20px; padding: 20px; 
             background: var(--bg-card);

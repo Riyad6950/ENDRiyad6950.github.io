@@ -620,7 +620,35 @@ header.scrolled {
 .education-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
+    gap: var(--space-6);
+}
+
+.edu-links {
+    margin-top: var(--space-4);
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.edu-links a {
+    font-size: 1.25rem;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-color);
+}
+
+.edu-links a:hover {
+    color: var(--text-light);
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: translateY(-3px);
 }
 
 .education-card {

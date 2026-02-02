@@ -88,8 +88,57 @@ if (contactForm) {
             return;
         }
 
-        showNotification('Message sent successfully!', 'success');
-        contactForm.reset();
+        // Formspree AJAX Submission
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.innerHTML;
+
+        // 1. Show Loading State
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        showNotification('Sending message...', 'success'); // Re-using success style for info, or could add 'info' type
+
+        // 2. Prepare Data
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('message', message);
+        formData.append('_subject', `Portfolio Message from ${name}`);
+
+        // 3. Send Request
+        // IMPORTANT: Replace 'xpwzqzqz' with your actual Formspree Form ID
+        fetch('https://formspree.io/f/xpwzqzqz', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Success
+                    showNotification('Message sent successfully!', 'success');
+                    contactForm.reset();
+                } else {
+                    // Error from service
+                    return response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            showNotification(data.errors.map(error => error.message).join(", "), 'error');
+                        } else {
+                            showNotification('Oops! There was a problem sending your message.', 'error');
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                // Network Error
+                console.error('Error:', error);
+                showNotification('Network error. Please try again later.', 'error');
+            })
+            .finally(() => {
+                // Reset Button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalBtnText;
+            });
     });
 }
 
