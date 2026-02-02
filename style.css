@@ -36,8 +36,8 @@
     --space-15: 120px;
 
     /* Typography */
-    --font-head: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --font-head: 'Outfit', sans-serif;
+    --font-body: 'Outfit', sans-serif;
 
     /* Radius */
     --radius-sm: 12px;
@@ -906,12 +906,13 @@ body.dark-mode .social-links a {
         position: fixed;
         top: 0;
         right: -100%;
-        width: 70%;
+        width: 170px;
         height: 100vh;
         background: var(--bg-card);
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
+        padding-top: 100px;
         transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
         z-index: 999;

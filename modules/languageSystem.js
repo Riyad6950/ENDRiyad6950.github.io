@@ -102,7 +102,7 @@ export class LanguageSystem {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                min-width: 45px;
+                min-width: 40px;
             }
             .lang-btn:hover {
                 transform: scale(1.1);
@@ -218,6 +218,16 @@ export class LanguageSystem {
                     margin-left: 0; padding-left: 0;
                     border-left: none; border-top: 1px solid var(--border-color);
                     margin-top: 20px; padding-top: 20px;
+                    width: 100%;
+                    justify-content: center;
+                }
+                .lang-btn {
+                    padding: 6px 8px;
+                    min-width: 35px;
+                    font-size: 0.7rem;
+                }
+                .lang-switcher-nav {
+                    gap: 4px;
                 }
             }
         `;
