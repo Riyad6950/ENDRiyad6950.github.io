@@ -66,6 +66,37 @@ function highlightNavLink() {
 
 globalThis.addEventListener('scroll', highlightNavLink);
 
+// ================= MOBILE MENU TOGGLE =================
+const menuToggle = document.querySelector('.menu-toggle');
+const mainNav = document.querySelector('.main-nav');
+const navLinksItems = document.querySelectorAll('.main-nav a');
+
+if (menuToggle && mainNav) {
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        mainNav.classList.toggle('active');
+        body.classList.toggle('no-scroll'); // Optional: Prevent scrolling when menu is open
+    });
+
+    // Close menu when clicking a link
+    navLinksItems.forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            mainNav.classList.remove('active');
+            body.classList.remove('no-scroll');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mainNav.contains(e.target) && !menuToggle.contains(e.target) && mainNav.classList.contains('active')) {
+            menuToggle.classList.remove('active');
+            mainNav.classList.remove('active');
+            body.classList.remove('no-scroll');
+        }
+    });
+}
+
 // ================= CONTACT FORM =================
 const contactForm = document.querySelector('.contact-form');
 
@@ -92,10 +123,16 @@ if (contactForm) {
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.innerHTML;
 
+        // Check for default/placeholder ID
+        const formAction = 'https://formspree.io/f/xpwzqzqz';
+        if (formAction.includes('xpwzqzqz')) {
+            console.warn('⚠️ Contact Form Warning: You are using the default placeholder ID (xpwzqzqz). Calls will fail with "Form not found". Please replace it with your own from formspree.io.');
+        }
+
         // 1. Show Loading State
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        showNotification('Sending message...', 'success'); // Re-using success style for info, or could add 'info' type
+        showNotification('Sending message...', 'success');
 
         // 2. Prepare Data
         const formData = new FormData();
@@ -105,8 +142,7 @@ if (contactForm) {
         formData.append('_subject', `Portfolio Message from ${name}`);
 
         // 3. Send Request
-        // IMPORTANT: Replace 'xpwzqzqz' with your actual Formspree Form ID
-        fetch('https://formspree.io/f/xpwzqzqz', {
+        fetch(formAction, {
             method: 'POST',
             body: formData,
             headers: {
@@ -115,13 +151,15 @@ if (contactForm) {
         })
             .then(response => {
                 if (response.ok) {
-                    // Success
                     showNotification('Message sent successfully!', 'success');
                     contactForm.reset();
                 } else {
-                    // Error from service
                     return response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
+                        if (response.status === 404) {
+                            // Specific handling for "Form not found"
+                            showNotification('Config Error: Form ID invalid. DEV: Check console.', 'error');
+                            console.error('❌ Formspree Error: 404 Form not found. You most likely need to update the Formspree ID in app.js line 109.');
+                        } else if (Object.hasOwn(data, 'errors')) {
                             showNotification(data.errors.map(error => error.message).join(", "), 'error');
                         } else {
                             showNotification('Oops! There was a problem sending your message.', 'error');
@@ -130,12 +168,10 @@ if (contactForm) {
                 }
             })
             .catch(error => {
-                // Network Error
                 console.error('Error:', error);
                 showNotification('Network error. Please try again later.', 'error');
             })
             .finally(() => {
-                // Reset Button
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = originalBtnText;
             });

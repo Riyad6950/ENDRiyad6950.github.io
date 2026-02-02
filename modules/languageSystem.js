@@ -194,6 +194,25 @@ export class LanguageSystem {
                 border-color: var(--accent-highlight);
             }
 
+            @media (max-width: 1024px) {
+                .nav-lang-item {
+                    margin-left: 10px;
+                    padding-left: 10px;
+                }
+                .lang-btn {
+                    padding: 6px 10px;
+                    min-width: 35px;
+                }
+            }
+
+            @media (max-width: 900px) {
+                .nav-lang-item {
+                    border-left: none;
+                    margin-left: 5px;
+                    padding-left: 5px;
+                }
+            }
+
             @media (max-width: 768px) {
                 .nav-lang-item {
                     margin-left: 0; padding-left: 0;

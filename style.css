@@ -261,6 +261,12 @@ header.scrolled {
     gap: var(--space-5);
 }
 
+@media (max-width: 1024px) {
+    .main-nav ul {
+        gap: var(--space-3);
+    }
+}
+
 .main-nav a {
     font-size: 0.95rem;
     font-weight: 500;
@@ -895,9 +901,47 @@ body.dark-mode .social-links a {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .main-nav {
-        display: none;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--bg-card);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+    }
+
+    .main-nav.active {
+        right: 0;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-6);
+    }
+
+    .main-nav a {
+        font-size: 1.5rem;
+    }
+
+    /* Hamburger Animation */
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
     }
 
     .menu-toggle {
